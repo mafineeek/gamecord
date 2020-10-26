@@ -2,7 +2,8 @@
  * Hangcord game generator
  */
 
-const possibleWords = require('./utils/words.json');
+const utils = require('./utils/index');
+const possibleWords = utils.words;
 
 const letterEmojisMap = {
     "🅰️": "A", "🇦": "A", "🅱️": "B", "🇧": "B", "🇨": "C", "🇩": "D", "🇪": "E",
@@ -21,7 +22,7 @@ class HangmanGame{
 
         this.message = message;
         this.inGame = false;
-        this.word = null; 
+        this.word = null;
         this.guessed = [];
         this.wrongs = 0;
         this.gameEmbed = null;
@@ -37,6 +38,10 @@ class HangmanGame{
         this.run();
     };
 
+    get hint(){
+        return this.word ? utils.quiz(this.word) : null 
+    };
+
     run(){
         if(this.inGame) return;
 
@@ -47,10 +52,11 @@ class HangmanGame{
             embed: {
                 title: this.options.title,
                 color: this.options.color,
-                description: this.options.description,
+                description: this.getDescription(),
                 timestamp: Date.now(),
                 fields: [
-                    { name: 'Letters guessed', value: this.guessed.length == 0 ? '\u200b' : this.guessed.join(" "), inline: false }
+                    { name: 'Letters guessed', value: this.guessed.length == 0 ? '\u200b' : this.guessed.join(" "), inline: false },
+                    { name: 'Hint', value: this.hint, inline: false }
                 ],
                 footer: {
                     text: 'React to this message using the emojis that look like letters'
@@ -115,7 +121,8 @@ class HangmanGame{
                     description: this.options.description,
                     timestamp: Date.now(),
                     fields: [
-                        { name: 'Letters guessed', value: this.guessed.length == 0 ? '\u200b' : this.guessed.join(" "), inline: false }
+                        { name: 'Letters guessed', value: this.guessed.length == 0 ? '\u200b' : this.guessed.join(" "), inline: false },
+                        { name: 'Hint', value: this.hint, inline: false }
                     ],
                     footer: {
                         text: 'React to this message using the emojis that look like letters'

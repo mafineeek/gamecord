@@ -17,8 +17,6 @@
      /**
       * All utils
       */
-     utils: {
-         words: require('./src/utils/words.json')
-     }
+     utils: require('./utils/index')
 
  };
