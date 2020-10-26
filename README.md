@@ -1,4 +1,4 @@
-# gamecord
+# Gamecord
 Make your create any game in discord eazy
 
 # Installation
@@ -63,9 +63,9 @@ client.login(config.token)
 ```
 
 # Picture
-![1](/images/1.PNG)
+![1](/images/snake.PNG)
 
-![2](/images/2.PNG)
+![2](/images/hangman.PNG)
 
 # Authors
 * **[1GPEX](https://github.com/1GPEX)** - *Original Idea*

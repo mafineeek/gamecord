@@ -1,0 +1,5 @@
+# Image files
+images/
+
+# Unwanted packaging files
+.gitignore
