@@ -63,9 +63,9 @@ client.login(config.token)
 ```
 
 # Picture
-![1](/images/snake.PNG)
+![snake](/images/snake.PNG)
 
-![2](/images/hangman.PNG)
+![hangman](/images/hangman.PNG)
 
 # Authors
 * **[1GPEX](https://github.com/1GPEX)** - *Original Idea*
