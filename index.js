@@ -12,11 +12,6 @@
      /**
       * Hangman game
       */
-     HangmanGame: require('./src/Hangcord'),
-
-     /**
-      * All utils
-      */
-     utils: require('./utils/index')
+     HangmanGame: require('./src/Hangcord')
 
  };

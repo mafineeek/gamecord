@@ -23,6 +23,7 @@ class HangmanGame{
         this.message = message;
         this.inGame = false;
         this.word = null;
+        this.hint = null;
         this.guessed = [];
         this.wrongs = 0;
         this.gameEmbed = null;
@@ -38,15 +39,12 @@ class HangmanGame{
         this.run();
     };
 
-    get hint(){
-        return this.word ? utils.quiz(this.word) : null 
-    };
-
     run(){
         if(this.inGame) return;
 
         this.inGame = true;
         this.word = this.options.words[Math.floor(Math.random() * this.options.words.length)].toUpperCase();
+        this.hint = '`' + utils.quiz(this.word) + '`';
 
         this.message.channel.send({
             embed: {
@@ -69,7 +67,7 @@ class HangmanGame{
     };
 
     waitForReaction(){
-        this.gameEmbed.awaitReactions(() => !message.author.bot, { max: 1, time: 300000, errors: ['time'] })
+        this.gameEmbed.awaitReactions(() => true, { max: 1, time: 300000, errors: ['time'] })
             .then(collected => {
                 const reaction = collected.first();
                 this.makeGuess(reaction.emoji.name);
@@ -77,8 +75,6 @@ class HangmanGame{
             })
             .catch(err => this.gameOver());
     };
-
-    
 
     getDescription() {
         return "```"
@@ -101,15 +97,15 @@ class HangmanGame{
         if (letterEmojisMapKeys.includes(reaction)) {
             const letter = letterEmojisMap[reaction];
 
-            if (!this.guesssed.includes(letter)) {
-                this.guesssed.push(letter);
+            if (!this.guessed.includes(letter)) {
+                this.guessed.push(letter);
 
                 if (this.word.indexOf(letter) == -1) {
                     this.wrongs++;
 
                     if (this.wrongs == 6) this.gameOver();
                 }
-                else if (!this.word.split("").map(l => this.guesssed.includes(l) ? l : "_").includes("_")) this.gameOver(true);
+                else if (!this.word.split("").map(l => this.guessed.includes(l) ? l : "_").includes("_")) this.gameOver(true);
             }
         }
 
@@ -118,7 +114,7 @@ class HangmanGame{
                 embed: {
                     title: this.options.title,
                     color: this.options.color,
-                    description: this.options.description,
+                    description: this.getDescription(),
                     timestamp: Date.now(),
                     fields: [
                         { name: 'Letters guessed', value: this.guessed.length == 0 ? '\u200b' : this.guessed.join(" "), inline: false },
@@ -141,7 +137,7 @@ class HangmanGame{
             embed: {
                 title: this.options.gameOverTitle,
                 color: this.options.color,
-                description: (win ? 'You won!' : 'You lost!') + "\n\nThe Word was:\n" + this.word,
+                description: `**${win ? 'You won!' : 'You lost!'}**\n**The Word:** ${this.word}`,
                 timestamp: Date.now()
             }
         });
