@@ -12,6 +12,6 @@
      /**
       * Hangman game
       */
-     HangmanGame: require('./src/Hangcord')
+     HangmanGame: require('./src/Hangman')
 
  };
