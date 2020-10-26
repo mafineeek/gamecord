@@ -1,0 +1,3 @@
+/**
+ * Hangcord game generator
+ */
