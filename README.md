@@ -14,11 +14,11 @@ npm install gamecord
 # Examples
 
 ```js
-const SnakeGame = require('snakecord');
+const gamecord = require('gamecord');
 const Discord = require("discord.js")
 const client = new Discord.Client()
 
-const snakeGame = new SnakeGame({
+const snakeGame = new gamecord({
     title: 'Snake Game',
     color: "GREEN",
     timestamp: false,
