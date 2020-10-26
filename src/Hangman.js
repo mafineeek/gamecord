@@ -143,7 +143,30 @@ class HangmanGame{
         });
 
         this.gameEmbed.reactions.removeAll();
-    }
+    };
+
+
+    setTitle(title){
+        this.options.title = title;
+    };
+
+    setColor(color){
+        this.options.color = color;
+    };
+
+    setGameOverTitle(title){
+        this.options.gameOverTitle = title;
+    };
+
+    setWords(words){
+        if(!Array.isArray(words)) throw new Error('invalid set of words');
+        this.options.words = words;
+    };
+
+    pushWords(words){
+        if(!Array.isArray(words)) throw new Error('invalid set of words');
+        this.options.words = this.options.words.concat(words);
+    };
 
 };
 
