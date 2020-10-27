@@ -2,6 +2,8 @@
  * Hangcord game generator
  */
 
+const { EventEmitter } = require('events');
+
 const utils = require('./utils/index');
 const possibleWords = utils.words;
 
@@ -27,6 +29,7 @@ class HangmanGame{
         this.guessed = [];
         this.wrongs = 0;
         this.gameEmbed = null;
+        this.event = new EventEmitter();
 
         this.options = {
             words: possibleWords,
@@ -35,8 +38,6 @@ class HangmanGame{
             gameOverTitle: 'Game Over',
             ...options
         };
-
-        this.run();
     };
 
     run(){
@@ -142,6 +143,12 @@ class HangmanGame{
             }
         });
 
+        this.event.emit('end', {
+            user: this.message.author,
+            message: this.message,
+            win
+        });
+
         this.gameEmbed.reactions.removeAll();
     };
 
@@ -170,6 +177,11 @@ class HangmanGame{
     pushWords(words){
         if(!Array.isArray(words)) throw new Error('invalid set of words');
         this.options.words = this.options.words.concat(words);
+        return this;
+    };
+
+    on(event, callback){
+        this.event.on(event, callback);
         return this;
     };
 
