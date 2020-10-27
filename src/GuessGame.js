@@ -10,7 +10,7 @@ class GuessGame{
         this.options = {
             word: utils.random(possibleWords).toLowerCase(),
             max: 1,
-            time: 2000,
+            time: 8000,
             ...options
         };
 
@@ -21,24 +21,37 @@ class GuessGame{
     };
 
     run(){
-        message.channel.awaitMessages( 
-            m => !m.author.bot && m.content.toLowerCase() == emoji.name.toLowerCase(),
+        this.message.channel.awaitMessages( 
+            m => !m.author.bot && m.content.toLowerCase() == this.options.word.toLowerCase(),
            { max: this.options.max, time: this.options.time, errors: ['time', 'max'] }
         )
         .then(collected => {
+            console.log(collected)
             this.winners.push(collected.first());
-            this.event.emit('response', collected);
+            this.event.emit('response', collected, this);
         })
         .catch(err => {
-            this.event.emit('end', {
-                message: this.message,
-                winners: this.winners
-            })
-        })
+            this.event.emit('end', this);
+        });
     };
 
     on(event, callback){
         this.event.on(event, callback);
+        return this;
+    };
+
+    setWord(word){
+        this.options.word = word;
+        return this;
+    };
+
+    setMax(max){
+        this.options.max = max;
+        return this;
+    };
+
+    setTime(time){
+        this.options.time = time;
         return this;
     };
 
