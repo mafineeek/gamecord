@@ -48,7 +48,6 @@ class HangmanGame{
         this.inGame = true;
         this.word = this.options.words[Math.floor(Math.random() * this.options.words.length)].toUpperCase();
         this.hint = '`' + utils.quiz(this.word) + '`';
-        console.log(this.word)
 
         this.message.channel.send({
             embed: {
@@ -82,14 +81,7 @@ class HangmanGame{
             }
             return true;
         }, { max: 1, time: 300000, errors: ['time'] })
-            .then(() => {
-                this.gameOver(true);
-                this.event.emit('end', {
-                    user: this.message.author,
-                    message: this.message,
-                    win
-                });
-            })
+            .then(this.gameOver)
             .catch(err => this.gameOver());
     };
 

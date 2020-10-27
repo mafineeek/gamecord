@@ -4,7 +4,7 @@
   "description": "Make your create any game in discord eazy",
   "main": "index.js",
   "scripts": {
-    "test": "node test/bot.js"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
