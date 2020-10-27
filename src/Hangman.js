@@ -82,8 +82,15 @@ class HangmanGame{
             }
             return true;
         }, { max: 1, time: 300000, errors: ['time'] })
-            .then(this.gameOver)
-            .catch(err => this.gameOver(true));
+            .then(() => {
+                this.gameOver(true);
+                this.event.emit('end', {
+                    user: this.message.author,
+                    message: this.message,
+                    win
+                });
+            })
+            .catch(err => this.gameOver());
     };
 
     waitForReaction(){
