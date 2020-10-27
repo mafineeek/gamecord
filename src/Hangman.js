@@ -3,6 +3,7 @@
  */
 
 const { EventEmitter } = require('events');
+const { PassThrough } = require('stream');
 
 const utils = require('./utils/index');
 const possibleWords = utils.words;
@@ -36,6 +37,7 @@ class HangmanGame{
             title: 'Hangman',
             color: 'RANDOM',
             gameOverTitle: 'Game Over',
+            type: 'message',
             ...options
         };
     };
@@ -46,6 +48,7 @@ class HangmanGame{
         this.inGame = true;
         this.word = this.options.words[Math.floor(Math.random() * this.options.words.length)].toUpperCase();
         this.hint = '`' + utils.quiz(this.word) + '`';
+        console.log(this.word)
 
         this.message.channel.send({
             embed: {
@@ -58,13 +61,28 @@ class HangmanGame{
                     { name: 'Hint', value: this.hint, inline: false }
                 ],
                 footer: {
-                    text: 'React to this message using the emojis that look like letters'
+                    text: this.options.type == 'message' ? 'Type your guess below' : 'React to this message using the emojis that look like letters'
                 }
             }
         }).then(message => {
             this.gameEmbed = message;
-            this.waitForReaction()
+            if(this.options.type == 'message') this.waitForMessage();
+            else this.waitForReaction();
         });
+    };
+
+    waitForMessage(){
+        this.message.channel.awaitMessages(m => {
+            if(!(!m.author.bot && m.content.toUpperCase() == this.word.toUpperCase())){
+                this.wrongs++
+                if (this.wrongs == 6) this.gameOver();
+                this.edit();
+                return false;
+            }
+            return true;
+        }, { max: 1, time: 300000, errors: ['time'] })
+            .then(this.gameOver)
+            .catch(err => this.gameOver(true));
     };
 
     waitForReaction(){
@@ -110,6 +128,10 @@ class HangmanGame{
             }
         }
 
+        this.edit()
+    };
+
+    edit(){
         if (this.inGame) {
             this.gameEmbed.edit({
                 embed: {
@@ -122,14 +144,14 @@ class HangmanGame{
                         { name: 'Hint', value: this.hint, inline: false }
                     ],
                     footer: {
-                        text: 'React to this message using the emojis that look like letters'
+                        text: this.options.type == 'message' ? 'Type your guess below' : 'React to this message using the emojis that look like letters'
                     }
                 }
             });
 
             this.waitForReaction();
         };
-    };
+    }
 
     gameOver(win) {
         this.inGame = false;
@@ -165,6 +187,12 @@ class HangmanGame{
 
     setGameOverTitle(title){
         this.options.gameOverTitle = title;
+        return this;
+    };
+
+    setType(type){
+        if(!['message', 'emoji'].includes(type)) throw new Error('type should be message or emoji');
+        this.options.type = type;
         return this;
     };
 
