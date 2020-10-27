@@ -14,52 +14,30 @@ npm install gamecord
 # Examples
 
 ```js
-const gamecord = require('gamecord');
-const Discord = require("discord.js")
-const client = new Discord.Client()
+// Install Gamecord
+const GameCord = require('./index');
 
-const snakeGame = new gamecord({
-    title: 'Snake Game',
-    color: "GREEN",
-    timestamp: false,
-    gameOverTitle: "Game Over"
-})
+// Discord Login
+const { Client } = require('discord.js');
+const client = new Client();
 
-const config = {
-    token: "TOKEN",
-    prefix: "t!"
-}
-client.on('ready', () => {
-    console.log("Clear Console")
-    console.clear()
-    console.log('Ready!');
-    client.user.setActivity(`${config.prefix}help`)
-});
+client.on('ready', () => console.log('Bot is ready :D'));
 
 client.on('message', message => {
-	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+    if(message.content == '!hangman'){
 
-	const args = message.content.slice(config.prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
+        new GameCord.HangmanGame(message)
+        .setTitle('My Hangman')
+        .setColor('#7298da')
+        .on('end', game => {
+            console.log(`${game.user.tag} ${game.win ? 'win' : 'lose'} the game!`)
+        })
+        .run()
 
-	if (command === 'test') {
-		message.channel.send('Test command work.');
-	} else if (command === 'snake' || command === 'snakegame') {
-		snakeGame.newGame(message);
-	} else if (command === 'help' || command === 'h') {
-        const embed = new Discord.MessageEmbed()
-        .setTitle("Help Menu")
-        .addFields(
-            { name: 'test', value: "Check the command handler", inline: true },
-            { name: 'snake', value: "Play snake game", inline: true },
-            { name: 'help', value: "Show this list", inline: true }
-        )
-
-        message.reply(embed)
     }
 });
 
-client.login(config.token)
+client.login(process.env.token);
 ```
 
 # Picture
