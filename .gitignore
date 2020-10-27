@@ -1,5 +1,6 @@
 # Test files
 test/
+test.js
 
 # Modules
 node_modules/
