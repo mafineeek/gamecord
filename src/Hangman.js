@@ -148,24 +148,29 @@ class HangmanGame{
 
     setTitle(title){
         this.options.title = title;
+        return this;
     };
 
     setColor(color){
         this.options.color = color;
+        return this;
     };
 
     setGameOverTitle(title){
         this.options.gameOverTitle = title;
+        return this;
     };
 
     setWords(words){
         if(!Array.isArray(words)) throw new Error('invalid set of words');
         this.options.words = words;
+        return this;
     };
 
     pushWords(words){
         if(!Array.isArray(words)) throw new Error('invalid set of words');
         this.options.words = this.options.words.concat(words);
+        return this;
     };
 
 };
