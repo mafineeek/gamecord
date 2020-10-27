@@ -73,6 +73,7 @@ class HangmanGame{
 
     waitForMessage(){
         this.message.channel.awaitMessages(m => {
+            if(m.author.id != this.message.author.id) return false;
             if(!(!m.author.bot && m.content.toUpperCase() == this.word.toUpperCase())){
                 this.wrongs++
                 if (this.wrongs == 6) this.gameOver();
