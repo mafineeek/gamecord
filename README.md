@@ -15,14 +15,16 @@ npm install gamecord
 
 ```js
 // Install Gamecord
-const GameCord = require('./index');
+const GameCord = require('gamecord');
 
-// Discord Login
+// Create Client
 const { Client } = require('discord.js');
 const client = new Client();
 
+// Ready Event
 client.on('ready', () => console.log('Bot is ready :D'));
 
+// Message Event
 client.on('message', message => {
     if(message.content == '!hangman'){
 
@@ -37,6 +39,7 @@ client.on('message', message => {
     }
 });
 
+// Login the bot
 client.login(process.env.token);
 ```
 
