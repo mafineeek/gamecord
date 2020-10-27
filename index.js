@@ -12,6 +12,11 @@
      /**
       * Hangman game
       */
-     HangmanGame: require('./src/Hangman')
+     HangmanGame: require('./src/Hangman'),
+
+     /**
+      * Make your guess game
+      */
+     GuessGame: require('./src/GuessGame')
 
  };
