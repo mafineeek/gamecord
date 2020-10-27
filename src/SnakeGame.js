@@ -166,6 +166,7 @@ class SnakeGame{
                     this.gameOver();
                 }
 
+
                 reaction.users.remove(reaction.users.cache.filter(user => user.id !== this.gameEmbed.author.id).first().id).then(() => {
                     if (this.isLocInSnake(nextPos)) {
                         this.gameOver();
