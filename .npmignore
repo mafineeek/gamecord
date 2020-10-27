@@ -3,3 +3,6 @@ images/
 
 # Unwanted packaging files
 .gitignore
+
+# Github files
+.github
