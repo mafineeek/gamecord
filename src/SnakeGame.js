@@ -92,6 +92,7 @@ class SnakeGame{
             this.gameEmbed.react('⬆️');
             this.gameEmbed.react('⬇️');
             this.gameEmbed.react('➡️');
+            this.gameEmbed.react('❌');
 
             this.waitForReaction();
         })
@@ -127,7 +128,7 @@ class SnakeGame{
     }
 
     filter(reaction, user) {
-        return ['⬅️', '⬆️', '⬇️', '➡️'].includes(reaction.emoji.name) && user.id !== this.gameEmbed.author.id;
+        return ['⬅️', '⬆️', '⬇️', '➡️', '❌'].includes(reaction.emoji.name) && user.id !== this.gameEmbed.author.id;
     }
 
     waitForReaction() {
@@ -160,6 +161,9 @@ class SnakeGame{
                     if (nextX >= WIDTH)
                         nextX = 0;
                     nextPos.x = nextX;
+                }
+                else if (reaction.emoji.name === '❌') {
+                    this.gameOver();
                 }
 
                 reaction.users.remove(reaction.users.cache.filter(user => user.id !== this.gameEmbed.author.id).first().id).then(() => {
