@@ -17,6 +17,12 @@
      /**
       * Make your guess game
       */
-     GuessGame: require('./src/GuessGame')
+     GuessGame: require('./src/GuessGame'),
+
+     /**
+      * Snake game
+      */
+
+     SnakeGame: require('./src/SnakeGame')
 
  };
