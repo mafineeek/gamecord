@@ -34,6 +34,7 @@ class HangmanGame{
             gameOverTitle: 'Game Over',
             type: 'message',
             hint: false,
+            time: 300000,
             ...options
         };
     };
@@ -95,13 +96,13 @@ class HangmanGame{
                 return false;
             }
             return true;
-        }, { max: 1, time: 300000, errors: ['time'] })
+        }, { max: 1, time: this.options.time, errors: ['time'] })
             .then(_ => this.gameOver(1))
             .catch(_ => this.gameOver(1));
     };
 
     waitForReaction(){
-        this.gameEmbed.awaitReactions(() => true, { max: 1, time: 300000, errors: ['time'] })
+        this.gameEmbed.awaitReactions(() => true, { max: 1, time: this.options.time, errors: ['time'] })
             .then(collected => {
                 const reaction = collected.first();
                 this.makeGuess(reaction.emoji.name);
@@ -178,6 +179,11 @@ class HangmanGame{
 
     setColor(color){
         this.options.color = color;
+        return this;
+    };
+
+    setTime(time){
+        this.options.time = time;
         return this;
     };
 

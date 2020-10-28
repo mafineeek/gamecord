@@ -32,6 +32,7 @@ client.on('message', message => {
         .setTitle('My Hangman')
         .setColor('#7298da')
         .setHint() // Only if you want a hint for your hangman!
+        .setTime(20000) // Default is 30 secs
         .on('end', game => {
             console.log(`${game.user.tag} ${game.win ? 'win' : 'lose'} the game!`)
         })
