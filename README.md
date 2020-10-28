@@ -11,7 +11,7 @@ npm install gamecord
 # Features
 - Super easy to use 😀
 
-# Examples
+# Quick Example
 
 ```js
 // Install Gamecord
@@ -51,6 +51,22 @@ client.on('message', message => {
 
 // Login the bot
 client.login(process.env.token);
+```
+
+# Quick Methods
+
+- `Minesweeper({ width: number, height: number })`
+
+Will return a grid of minesweeper using discord spoiler tag...
+
+```js
+message.channel.send(
+    new Discord.MessageEmbed()
+    .setTitle('My Minesweeper')
+    .setColor('#7298da')
+    .setDescription(GameCord.Minesweeper()) // By default minesweeper method takes 8x8 grid
+    .setTimestamp()
+)
 ```
 
 # Picture
