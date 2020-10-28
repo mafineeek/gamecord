@@ -1,5 +1,6 @@
 # Gamecord
-Make your create any game in discord eazy
+
+Easy to make discord games for your bot by us!
 
 # Installation
 
@@ -9,7 +10,6 @@ npm install gamecord
 
 # Features
 - Super easy to use 😀
-
 
 # Examples
 
