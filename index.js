@@ -23,6 +23,11 @@
       * Snake game
       */
 
-     SnakeGame: require('./src/SnakeGame')
+     SnakeGame: require('./src/SnakeGame'),
+
+     /**
+      * Minesweeper board gen
+      */
+     Minesweeper: require('./src/Minesweeper')
 
  };
