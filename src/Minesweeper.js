@@ -1,5 +1,9 @@
 const random = require('./utils/index').random;
 
+/**
+ * Minesweeper board gen
+ * @param {any} [options={}] Your options
+ */
 module.exports = (options={}) => {
     const width = options.width || 8;
     const height = options.height || 8;
@@ -7,12 +11,11 @@ module.exports = (options={}) => {
     let board = [];
 
     for(let i = 0; i < height; i++){
-        let section = [];
         for(let i = 0; i < width; i++){
-            section.push(`||${random(['💥', ':one:', ':one:', ':two:', ':three:'])}||`);
+            board.push(`||${random(['💥', ':one:', ':one:', ':two:', ':three:'])}||`);
         };
-        board.push(section.join(' '));
+        board.push('\n');
     };
 
-    return board.join('\n')
+    return board.join(' ')
 };
