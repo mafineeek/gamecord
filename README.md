@@ -69,7 +69,7 @@ message.channel.send(
 )
 ```
 
-# Picture
+# Samples
 ![1](/images/snake.png)
 
 ![2](/images/hangman.png)
