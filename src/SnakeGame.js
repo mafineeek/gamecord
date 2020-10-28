@@ -1,4 +1,3 @@
-const { SnowflakeUtil } = require('discord.js');
 const { EventEmitter } = require('events');
 
 const WIDTH = 15;

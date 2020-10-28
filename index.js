@@ -28,6 +28,11 @@
      /**
       * Minesweeper board gen
       */
-     Minesweeper: require('./src/Minesweeper')
+     Minesweeper: require('./src/Minesweeper'),
+
+     /**
+      * Connect4 Game
+      */
+     Connect4: require("./src/Connect4")
 
  };
