@@ -1,11 +1,8 @@
-# Image files
-images/
-
-# Unwanted packaging files
-.gitignore
-
-# Github files
+# Github only files
 .github/
+.gitignore
+images/
+CHANGELOG.md
 
 # Ignoring test files
 test/
