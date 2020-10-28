@@ -92,23 +92,22 @@ class HangmanGame{
         }).then(message => {
             this.embed = message;
             let win = true;
-
-            this.message.channel.awaitMessages(
-                m => {
-                    if(m.author.id != this.message.author.id) return false;
-                    this.guessed.push(m.content.toUpperCase());
-                    if(!this.hint.includes('_')) return true;
-                    if(!this.wordArray.includes(m.content.toUpperCase())) this.mistakes++;
-                    if(this.mistakes == 6){
-                        win = false;
-                        return true;
-                    };
-                    this.edit();
-                },
-                { max: 1, time: this.options.time, errors: ['time'] }
-            )
+            this.message.channel.awaitMessages(this.next, { max: 1, time: this.options.time, errors: ['time'] })
             .then(() => this.end(win)).catch(() => this.end(0));
         });
+    };
+
+    /**
+     * Next event
+     * @param {any} m Message object 
+     */
+    next(m){
+        if(m.author.id != this.message.author.id) return false;
+        this.guessed.push(m.content.toUpperCase());
+        if(!this.hint.includes('_')) return true;
+        if(!this.wordArray.includes(m.content.toUpperCase())) this.mistakes++;
+        if(this.mistakes == 6){ win = false; return true; };
+        this.edit();
     };
 
     /**
@@ -125,8 +124,8 @@ class HangmanGame{
                     text: 'Type your guess below!'
                 }
             }
-        })
-    }
+        });
+    };
 
     /**
      * Function to end the game
