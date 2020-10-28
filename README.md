@@ -31,10 +31,14 @@ client.on('message', message => {
         new GameCord.HangmanGame(message)
         .setTitle('My Hangman')
         .setColor('#7298da')
+        .setHint() // Only if you want a hint for your hangman!
         .on('end', game => {
             console.log(`${game.user.tag} ${game.win ? 'win' : 'lose'} the game!`)
         })
-        .run()
+        .on('start', game => {
+            console.log(`${game.message.author.tag} started a hangman game with word ${game.word}!`)
+        })
+        .run() // Keep all your settings above and run it after all of your configuration!
 
     }
 });

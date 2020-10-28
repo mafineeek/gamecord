@@ -1,9 +1,4 @@
-/**
- * Hangcord game generator
- */
-
 const { EventEmitter } = require('events');
-const { PassThrough } = require('stream');
 
 const utils = require('./utils/index');
 const possibleWords = utils.words;
@@ -26,8 +21,8 @@ class HangmanGame{
         this.message = message;
         this.inGame = false;
         this.word = null;
-        this.hint = null;
         this.guessed = [];
+        this.hint = null;
         this.wrongs = 0;
         this.gameEmbed = null;
         this.event = new EventEmitter();
@@ -38,8 +33,27 @@ class HangmanGame{
             color: 'RANDOM',
             gameOverTitle: 'Game Over',
             type: 'message',
+            hint: false,
             ...options
         };
+    };
+
+    get description(){
+        return "```"
+            + "|‾‾‾‾‾‾|   \n|     "
+            + (this.wrongs > 0 ? "🎩" : " ")
+            + "   \n|     "
+            + (this.wrongs > 1 ? "😟" : " ")
+            + "   \n|     "
+            + (this.wrongs > 2 ? "👕" : " ")
+            + "   \n|     "
+            + (this.wrongs > 3 ? "🩳" : " ")
+            + "   \n|    "
+            + (this.wrongs > 4 ? "👞👞" : " ")
+            + "   \n|     \n|__________\n\n"
+            + this.word.split("").map(l => this.guessed.includes(l) ? l : "_").join(" ")
+            + "```\n"
+            + (this.options.hint ? `**Hint:** \`${this.hint}\`` : '');
     };
 
     run(){
@@ -47,17 +61,18 @@ class HangmanGame{
 
         this.inGame = true;
         this.word = this.options.words[Math.floor(Math.random() * this.options.words.length)].toUpperCase();
-        this.hint = '`' + utils.quiz(this.word) + '`';
+        this.hint = utils.quiz(this.word);
+
+        this.event.emit('start', this);
 
         this.message.channel.send({
             embed: {
                 title: this.options.title,
                 color: this.options.color,
-                description: this.getDescription(),
+                description: this.description,
                 timestamp: Date.now(),
                 fields: [
                     { name: 'Letters guessed', value: this.guessed.length == 0 ? '\u200b' : this.guessed.join(" "), inline: false },
-                    { name: 'Hint', value: this.hint, inline: false }
                 ],
                 footer: {
                     text: this.options.type == 'message' ? 'Type your guess below' : 'React to this message using the emojis that look like letters'
@@ -81,8 +96,8 @@ class HangmanGame{
             }
             return true;
         }, { max: 1, time: 300000, errors: ['time'] })
-            .then(this.gameOver)
-            .catch(err => this.gameOver());
+            .then(_ => this.gameOver(1))
+            .catch(_ => this.gameOver(1));
     };
 
     waitForReaction(){
@@ -93,23 +108,6 @@ class HangmanGame{
                 reaction.remove();
             })
             .catch(err => this.gameOver());
-    };
-
-    getDescription() {
-        return "```"
-            + "|‾‾‾‾‾‾|   \n|     "
-            + (this.wrongs > 0 ? "🎩" : " ")
-            + "   \n|     "
-            + (this.wrongs > 1 ? "😟" : " ")
-            + "   \n|     "
-            + (this.wrongs > 2 ? "👕" : " ")
-            + "   \n|     "
-            + (this.wrongs > 3 ? "🩳" : " ")
-            + "   \n|    "
-            + (this.wrongs > 4 ? "👞👞" : " ")
-            + "   \n|     \n|__________\n\n"
-            + this.word.split("").map(l => this.guessed.includes(l) ? l : "_").join(" ")
-            + "```";
     };
 
     makeGuess(reaction) {
@@ -137,11 +135,10 @@ class HangmanGame{
                 embed: {
                     title: this.options.title,
                     color: this.options.color,
-                    description: this.getDescription(),
+                    description: this.description,
                     timestamp: Date.now(),
                     fields: [
                         { name: 'Letters guessed', value: this.guessed.length == 0 ? '\u200b' : this.guessed.join(" "), inline: false },
-                        { name: 'Hint', value: this.hint, inline: false }
                     ],
                     footer: {
                         text: this.options.type == 'message' ? 'Type your guess below' : 'React to this message using the emojis that look like letters'
@@ -160,20 +157,19 @@ class HangmanGame{
             embed: {
                 title: this.options.gameOverTitle,
                 color: this.options.color,
-                description: `**${win ? 'You won!' : 'You lost!'}**\n**The Word:** ${this.word}`,
+                description: `**${win ? 'You won!' : 'You lose!'}**\n**The Word:** ${this.word}`,
                 timestamp: Date.now()
             }
         });
 
         this.event.emit('end', {
             user: this.message.author,
-            message: this.message,
-            win
+            win,
+            ...this
         });
 
         this.gameEmbed.reactions.removeAll();
     };
-
 
     setTitle(title){
         this.options.title = title;
@@ -205,6 +201,11 @@ class HangmanGame{
     pushWords(words){
         if(!Array.isArray(words)) throw new Error('invalid set of words');
         this.options.words = this.options.words.concat(words);
+        return this;
+    };
+
+    setHint(){
+        this.options.hint = true;
         return this;
     };
 
