@@ -3,7 +3,7 @@
  */
 
 const { EventEmitter } = require('events');
-const { random, quiz, words } = require('./utils/index');
+const { random, words } = require('./utils/index');
 
 class HangmanGame{
 
