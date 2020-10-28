@@ -33,13 +33,18 @@ client.on('message', message => {
         .setColor('#7298da')
         .setHint() // Only if you want a hint for your hangman!
         .setTime(20000) // Default is 30 secs
-        .on('end', game => {
-            console.log(`${game.user.tag} ${game.win ? 'win' : 'lose'} the game!`)
-        })
-        .on('start', game => {
-            console.log(`${game.message.author.tag} started a hangman game with word ${game.word}!`)
-        })
+        .on('end', game => console.log(`${game.user.tag} ${game.win ? 'win' : 'lose'} the game!`))
+        .on('start', game => console.log(`${game.message.author.tag} started a hangman game with word ${game.word}!`))
         .run() // Keep all your settings above and run it after all of your configuration!
+
+    }else if(message.content == '!snake'){
+
+        new GameCord.SnakeGame(message)
+        .setTitle('My snake')
+        .setColor('#7298da')
+        .setMaxTime(60000) // Always better to set max time because the default one is just 5s
+        .on('end', game => console.log(`${game.message.author.tag}'s snake game score was ${game.score}`)) // Start event also exists
+        .run()
 
     }
 });
