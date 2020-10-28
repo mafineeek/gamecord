@@ -1,3 +1,7 @@
+/**
+ * Minesweeper board gen
+ */
+
 const random = require('./utils/index').random;
 
 /**
