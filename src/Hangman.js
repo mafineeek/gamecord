@@ -27,7 +27,8 @@ class HangmanGame{
         this.message = message;
         this.event = new EventEmitter();
         this.mistakes = 0;
-        this.words = null;
+        this.word = null;
+        this.wordArray = [];
         this.embed = null;
         this.guessed = [];
 
@@ -65,7 +66,7 @@ class HangmanGame{
      * Hint gen
      */
     get hint(){
-        return this.word.split('').map(x => this.guessed.includes(x) ? x : '_')
+        return this.wordArray.map(x => this.guessed.includes(x) ? x : '_')
     }
 
     /**
@@ -74,9 +75,8 @@ class HangmanGame{
      */
     run(){
         this.word = this.options.words[Math.floor(Math.random() * this.options.words.length)].toUpperCase();
-
-        if(this.options.hint) for(let i = 0; i < 2; i++) this.guessed.push(random(this.word.split('')));
-
+        this.wordArray = this.wordArray;
+        if(this.options.hint) for(let i = 0; i < 2; i++) this.guessed.push(random(this.wordArray));
         this.event.emit('start', this);
 
         this.message.channel.send({
@@ -98,7 +98,7 @@ class HangmanGame{
                     if(m.author.id != this.message.author.id) return false;
                     this.guessed.push(m.content.toUpperCase());
                     if(!this.hint.includes('_')) return true;
-                    if(!this.word.split('').includes(m.content.toUpperCase())) this.mistakes++;
+                    if(!this.wordArray.includes(m.content.toUpperCase())) this.mistakes++;
                     if(this.mistakes == 6){
                         win = false;
                         return true;
