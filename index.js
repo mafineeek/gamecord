@@ -12,27 +12,28 @@
      /**
       * Hangman game
       */
-     HangmanGame: require('./src/Hangman'),
+    HangmanGame: require('./src/Hangman'),
 
      /**
       * Make your guess game
       */
-     GuessGame: require('./src/GuessGame'),
+    GuessGame: require('./src/GuessGame'),
 
      /**
       * Snake game
       */
 
-     SnakeGame: require('./src/SnakeGame'),
+    SnakeGame: require('./src/SnakeGame'),
+
+     /**
+      * ConnectFour Discord game
+      */
+
+    ConnectFour: require('./src/ConnectFour'),
 
      /**
       * Minesweeper board gen
       */
-     Minesweeper: require('./src/Minesweeper'),
-
-     /**
-      * Connect4 Game
-      */
-     Connect4: require("./src/Connect4")
+    Minesweeper: require('./src/Minesweeper')
 
  };
