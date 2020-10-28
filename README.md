@@ -74,7 +74,7 @@ message.channel.send(
 
 ![2](/images/hangman.png)
 
-![3](/images/minesweeper.png)
+![3](/images/mine.png)
 
 # Authors
 * **[1GPEX](https://github.com/1GPEX)** - *Original Idea*
