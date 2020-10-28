@@ -41,18 +41,20 @@ class HangmanGame{
 
     get description(){
         return "```"
-            + "|‾‾‾‾‾‾|   \n|     "
-            + (this.wrongs > 0 ? "🎩" : " ")
+            + (this.wrongs > 0 ? "|‾‾‾‾‾‾|   \n|     " : " ")
+            + (this.wrongs > 1 ? " |" : " ")
             + "   \n|     "
-            + (this.wrongs > 1 ? "😟" : " ")
+            + (this.wrongs > 2 ? " O" : " ")
             + "   \n|     "
-            + (this.wrongs > 2 ? "👕" : " ")
+            + (this.wrongs > 3 ? "/|\\" : " ")
             + "   \n|     "
-            + (this.wrongs > 3 ? "🩳" : " ")
-            + "   \n|    "
-            + (this.wrongs > 4 ? "👞👞" : " ")
-            + "   \n|     \n|__________\n\n"
-            + this.word.split("").map(l => this.guessed.includes(l) ? l : "_").join(" ")
+            + (this.wrongs > 4 ? "/ \\" : " ")
+            + "   \n|     \n|__________"
+            + (
+                this.options.type == 'message' ? 
+                '' : 
+                '\n\n' + this.word.split("").map(l => this.guessed.includes(l) ? l : "_").join(" ")
+              )
             + "```\n"
             + (this.options.hint ? `**Hint:** \`${this.hint}\`` : '');
     };
