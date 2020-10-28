@@ -75,7 +75,7 @@ class HangmanGame{
      */
     run(){
         this.word = this.options.words[Math.floor(Math.random() * this.options.words.length)].toUpperCase();
-        this.wordArray = this.wordArray;
+        this.wordArray = this.word.split('');
         if(this.options.hint) for(let i = 0; i < 2; i++) this.guessed.push(random(this.wordArray));
         this.event.emit('start', this);
 
