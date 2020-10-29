@@ -80,4 +80,4 @@ message.channel.send(
 * **[1GPEX](https://github.com/1GPEX)** - *Original Idea*
 * **[Science Spot](https://github.com/Scientific-Guy)** - *Make a options* 
 
-## [Discord](https://discord.gg/hw7XPxz) - *Join discord server for help*
+### [Discord](https://discord.gg/hw7XPxz) - *Join discord server for help*
