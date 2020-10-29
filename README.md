@@ -79,3 +79,5 @@ message.channel.send(
 # Authors
 * **[1GPEX](https://github.com/1GPEX)** - *Original Idea*
 * **[Science Spot](https://github.com/Scientific-Guy)** - *Make a options* 
+
+[discord](https://discord.gg/hw7XPxz) - *Join discord server for help*
