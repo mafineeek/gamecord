@@ -1,6 +1,6 @@
 {
   "name": "gamecord",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Make your create any game in discord eazy",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/1gpex/gamecord.git"
   },
-  "keywords": [],
+  "keywords": ["npm", "game", "discord.js"],
   "author": "kazult",
   "license": "ISC",
   "bugs": {
