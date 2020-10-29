@@ -1,32 +1,23 @@
+/**
+ * SnakeGame Gen
+ */
 const { EventEmitter } = require('events');
 
 const WIDTH = 15;
 const HEIGHT = 10;
 
-const reactionMap = {
-    '⬅️': (snakeHead, nextPos) => {
-        let nextX = snakeHead.x - 1;
-        if (nextX < 0) nextX = WIDTH - 1;
-        nextPos.x = nextX;
-    },
-    '⬆️': (snakeHead, nextPos) => {
-        let nextY = snakeHead.y - 1;
-        if (nextY < 0) nextY = HEIGHT - 1;
-        nextPos.y = nextY;
-    },
-    '⬇️': (snakeHead, nextPos) => {
-        let nextY = snakeHead.y + 1;
-        if (nextY >= HEIGHT) nextY = 0;
-        nextPos.y = nextY;
-    },
-    '➡️': (snakeHead, nextPos) => {
-        let nextX = snakeHead.x + 1;
-        if (nextX >= WIDTH) nextX = 0;
-        nextPos.x = nextX;
-    }
-};
-
 class SnakeGame{
+    /**
+    * Snakegame gen
+    * @param {any} message Client Message
+    * @param {object} options Your options
+    * @example const GameCord = require('gamecord');
+    * new GameCord.SnakeGame(message)
+        .setTitle('My Snake')
+        .setColor('#7298da')
+        .setTime(20000) // Default is 30 secs
+        .run() // Keep all your settings above and run it after all of your configuration!
+    */
 
     constructor(message, options={}){
         if(!message) throw new Error('missing message param!');
@@ -36,7 +27,6 @@ class SnakeGame{
         this.snakeLength = 1;
         this.score = 0;
         this.gameEmbed = null;
-        this.inGame = false;
         this.snake = [{ x: 5, y: 5}];
         this.apple = { x: 1, y: 1 };
         this.gameBoard = [];
@@ -44,8 +34,8 @@ class SnakeGame{
         for (let y = 0; y < HEIGHT; y++) {
             for (let x = 0; x < WIDTH; x++) {
                 this.gameBoard[y * WIDTH + x] = "🟦";
-            };
-        };
+            }
+        }
 
         this.options = {
             title: 'Snake Game',
@@ -56,33 +46,37 @@ class SnakeGame{
         };
     };
 
+    /**
+     * Get the snake board
+     * @example SnakeGame.board
+     */
     get board(){
-        let str = "";
-
+        let { apple, gameBoard } = this
+        let str = ""
         for (let y = 0; y < HEIGHT; y++) {
             for (let x = 0; x < WIDTH; x++) {
-                if (x == this.apple.x && y == this.apple.y) str += "🍎";
+                if (x == apple.x && y == apple.y) {
+                    str += "🍎";
+                    continue;
+                }
 
                 let flag = true;
-
                 for (let s = 0; s < this.snake.length; s++) {
                     if (x == this.snake[s].x && y == this.snake[s].y) {
                         str += "🟩";
                         flag = false;
-                    };
-                };
+                    }
+                }
 
-                if (flag) str += this.gameBoard[y * WIDTH + x];
-            };
-
+                if (flag)
+                    str += gameBoard[y * WIDTH + x];
+            }
             str += "\n";
-        };
-
-        return str
+        }
+        return str;
     };
 
     reset(){
-        this.inGame = true;
         this.score = 0;
         this.snakeLength = 1;
         this.snake = [{ x: 5, y: 5 }];
@@ -116,7 +110,6 @@ class SnakeGame{
     };
 
     gameOver(){
-        this.inGame = false;
 
         this.gameEmbed.edit({
             embed: {
@@ -150,10 +143,19 @@ class SnakeGame{
         this.waitForReaction();
     };
 
+    /**
+     * 
+     * @param {*} reaction 
+     * @param {*} user 
+     */
     filter(reaction, user) {
         return ['⬅️', '⬆️', '⬇️', '➡️', '❌'].includes(reaction.emoji.name) && user.id !== this.gameEmbed.author.id;
-    };
+    }
 
+    /**
+     * 
+     * @param {*} pos 
+     */
     isLocInSnake(pos) {
         return this.snake.find(sPos => sPos.x == pos.x && sPos.y == pos.y);
     };
@@ -168,47 +170,98 @@ class SnakeGame{
         this.apple.y = newApplePos.y;
     };
 
-    waitForReaction(){
-        this.gameEmbed.awaitReactions(this.filter, { max: 1, time: this.options.maxTime, errors: ['time'] })
-        .then(collected => {
-            const reaction = collected.first();
-            const snakeHead = this.snake[0];
-            const nextPos = { x: snakeHead.x, y: snakeHead.y };
-            const emojiWork = reactionMap[reaction.emoji.name];
+    waitForReaction() {
+        this.gameEmbed.awaitReactions((reaction, user) => this.filter(reaction, user), { max: 1, time: this.options.maxTime, errors: ['time'] })
+            .then(collected => {
 
-            if(emojiWork) emojiWork(snakeHead, nextPos);
-            else return this.gameOver();
+                const reaction = collected.first();
 
-            reaction.users.remove(reaction.users.cache.filter(user => user.id !== this.gameEmbed.author.id).first().id).then(() => {
-                if (this.isLocInSnake(nextPos)) return this.gameOver();
-                this.snake.unshift(nextPos);
-                if (this.snake.length > this.snakeLength) this.snake.pop();
-                this.step();
+                const snakeHead = this.snake[0];
+                const nextPos = { x: snakeHead.x, y: snakeHead.y };
+
+                if (reaction.emoji.name === '⬅️') {
+                    let nextX = snakeHead.x - 1;
+                    if (nextX < 0)
+                        nextX = WIDTH - 1;
+                    nextPos.x = nextX;
+                } else if (reaction.emoji.name === '⬆️') {
+                    let nextY = snakeHead.y - 1;
+                    if (nextY < 0)
+                        nextY = HEIGHT - 1;
+                    nextPos.y = nextY;
+                } else if (reaction.emoji.name === '⬇️') {
+                    let nextY = snakeHead.y + 1;
+                    if (nextY >= HEIGHT)
+                        nextY = 0;
+                    nextPos.y = nextY;
+                } else if (reaction.emoji.name === '➡️') {
+                    let nextX = snakeHead.x + 1;
+                    if (nextX >= WIDTH)
+                        nextX = 0;
+                    nextPos.x = nextX;
+                } else if (reaction.emoji.name === '❌') {
+                    this.gameOver();
+                }
+
+                reaction.users.remove(reaction.users.cache.filter(user => user.id !== this.gameEmbed.author.id).first().id).then(() => {
+                    if (this.isLocInSnake(nextPos)) {
+                        this.gameOver();
+                    }
+                    else {
+                        this.snake.unshift(nextPos);
+                        if (this.snake.length > this.snakeLength)
+                            this.snake.pop();
+
+                        this.step();
+                    }
+                });
+            })
+            .catch(collected => {
+                this.gameOver();
             });
-        })
-        .catch(this.gameOver);
-    };
+    }
 
+    /**
+     * 
+     * @param {*} title 
+     */
     setTitle(title){
         this.options.title = title;
         return this;
     };
 
+    /**
+     * 
+     * @param {*} color 
+     */
     setColor(color){
         this.options.color = color;
         return this;
     };
 
+    /**
+     * 
+     * @param {*} time 
+     */
     setMaxTime(time){
         this.options.maxTime = time;
         return this;
     };
 
+    /**
+     * 
+     * @param {*} title 
+     */
     setGameOverTitle(title){
         this.options.gameOverTitle = title;
         return this;
     };
 
+    /**
+     * 
+     * @param {*} event 
+     * @param {*} callback 
+     */
     on(event, callback){
         this.event.on(event, callback);
         return this;
