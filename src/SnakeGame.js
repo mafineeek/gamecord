@@ -1,8 +1,10 @@
 /**
  * SnakeGame Gen
  */
-const { EventEmitter } = require('events');
 
+const { emoji } = require('./utils/index');
+const { EventEmitter } = require('events');
+const { up, down, left, right, exit } =  emoji.snakegame
 const WIDTH = 15;
 const HEIGHT = 10;
 
@@ -83,11 +85,11 @@ class SnakeGame{
     };
 
     react(){
-        this.gameEmbed.react('⬅️');
-        this.gameEmbed.react('⬆️');
-        this.gameEmbed.react('⬇️');
-        this.gameEmbed.react('➡️');
-        this.gameEmbed.react('❌');
+        this.gameEmbed.react(left);
+        this.gameEmbed.react(right);
+        this.gameEmbed.react(up);
+        this.gameEmbed.react(down);
+        this.gameEmbed.react(exit);
     };
 
     run(){
@@ -149,7 +151,7 @@ class SnakeGame{
      * @param {*} user 
      */
     filter(reaction, user) {
-        return ['⬅️', '⬆️', '⬇️', '➡️', '❌'].includes(reaction.emoji.name) && user.id !== this.gameEmbed.author.id;
+        return [up, down, left, right, exit].includes(reaction.emoji.name) && user.id !== this.gameEmbed.author.id;
     }
 
     /**
@@ -179,27 +181,27 @@ class SnakeGame{
                 const snakeHead = this.snake[0];
                 const nextPos = { x: snakeHead.x, y: snakeHead.y };
 
-                if (reaction.emoji.name === '⬅️') {
+                if (reaction.emoji.name === left) {
                     let nextX = snakeHead.x - 1;
                     if (nextX < 0)
                         nextX = WIDTH - 1;
                     nextPos.x = nextX;
-                } else if (reaction.emoji.name === '⬆️') {
+                } else if (reaction.emoji.name === up) {
                     let nextY = snakeHead.y - 1;
                     if (nextY < 0)
                         nextY = HEIGHT - 1;
                     nextPos.y = nextY;
-                } else if (reaction.emoji.name === '⬇️') {
+                } else if (reaction.emoji.name === down) {
                     let nextY = snakeHead.y + 1;
                     if (nextY >= HEIGHT)
                         nextY = 0;
                     nextPos.y = nextY;
-                } else if (reaction.emoji.name === '➡️') {
+                } else if (reaction.emoji.name === right) {
                     let nextX = snakeHead.x + 1;
                     if (nextX >= WIDTH)
                         nextX = 0;
                     nextPos.x = nextX;
-                } else if (reaction.emoji.name === '❌') {
+                } else if (reaction.emoji.name === exit) {
                     this.gameOver();
                 }
 
