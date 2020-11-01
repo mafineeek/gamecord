@@ -77,7 +77,13 @@ message.channel.send(
 ![3](/images/mine.png)
 
 # Authors
-* **[1GPEX](https://github.com/1GPEX)** - *Original Idea*
-* **[Science Spot](https://github.com/Scientific-Guy)** - *Make a options* 
+* **[1GPEX](https://github.com/1GPEX)** - *Original Idea & Make snake,connect4 ganes*
+* **[Science Spot](https://github.com/Scientific-Guy)** - *Make a options & hangman,snake,minesweeper games* 
+
+# Applicable Games
+- Hangman
+- Snake
+- Minesweeper
+- ConnectFour
 
 ### [Discord](https://discord.gg/hw7XPxz) - *Join discord server for help*
