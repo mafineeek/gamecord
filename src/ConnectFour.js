@@ -1,15 +1,28 @@
 const { EventEmitter } = require('events');
+const { request } = require('http');
 
+const { emoji } = require('./utils/index');
+const {
+    white,
+    red,
+    yellow
+} = emoji.connect4
+
+const reactions = { "1️⃣": 1, "2️⃣": 2, "3️⃣": 3, "4️⃣": 4, "5️⃣": 5, "6️⃣": 6, "7️⃣": 7 }
 const WIDTH = 7;
 const HEIGHT = 7;
 const gameBoard = [];
 
-const reactions = { "1️⃣": 1, "2️⃣": 2, "3️⃣": 3, "4️⃣": 4, "5️⃣": 5, "6️⃣": 6, "7️⃣": 7 }
-
 class Connect4{
+    /**
+     * 
+     * @param {*} message 
+     * @param {*} options 
+     */
     constructor(message, options={}) {
         if(!message) throw new Error('missing message param!')
         
+        this.reactions = reactions
         this.message = message;
         this.gameEmbed = null;
         this.inGame = false;
@@ -24,12 +37,12 @@ class Connect4{
         };
     }
     gameBoardToString() {
-        let str = "| . 1 | . 2 | 3 | . 4 | . 5 | 6 | . 7 |\n"
+        let str = "\u200B|   1️⃣ \u200B| 2️⃣   \u200B|  3️⃣  \u200B|  4️⃣  \u200B|  5️⃣  \u200B|   6️⃣ \u200B|  7️⃣  |\n"
         for (let y = 0; y < HEIGHT; y++) {
             for (let x = 0; x < WIDTH; x++) {
-                str += "|" + gameBoard[y * WIDTH + x];
+                str += " | " + gameBoard[y * WIDTH + x];
             }
-            str += "|\n";
+            str += " | \n";
         }
         return str;
     }
@@ -40,11 +53,12 @@ class Connect4{
 
         for (let y = 0; y < HEIGHT; y++) {
             for (let x = 0; x < WIDTH; x++) {
-                gameBoard[y * WIDTH + x] = "⚪";
+                gameBoard[y * WIDTH + x] = white;
             }
         }
 
         this.inGame = true;
+        this.event.emit('start', this);
 
         this.message.channel.send({
             embed: {
@@ -52,9 +66,10 @@ class Connect4{
                 color: this.options.color,
                 description: this.gameBoardToString(),
                 timestamp: Date.now(),
-                fields: [
-                    { name: 'Turn:', value: this.getChipFromTurn(), inline: false}
-                ]
+                description: ([
+                    `${this.gameBoardToString()}`,
+                    `**Turn:** ${this.getChipFromTurn()}`
+                ].join("\n")),
             }
         }).then(emsg => {
             this.gameEmbed = emsg;
@@ -72,10 +87,10 @@ class Connect4{
             embed: {
                 title: this.options.title,
                 color: this.options.color,
-                description: this.gameBoardToString(),
-                fields: [
-                    { name: 'Turn:', value: this.getChipFromTurn(), inline: false}
-                ],
+                description: ([
+                    `${this.gameBoardToString()}`,
+                    `**Turn:** ${this.getChipFromTurn()}`
+                ].join("\n")),
                 timestamp: Date.now()
             }
         });
@@ -83,24 +98,34 @@ class Connect4{
         this.waitForReaction();
     }
 
+    /**
+     * 
+     * @param {*} winner 
+     */
     gameOver(winner) {
         this.inGame = false;
         this.gameEmbed.edit({
             embed: {
                 title: this.options.gameOverTitle,
                 color: this.options.color,
-                description: this.getWinnerText(winner),
+                description: this.winnerText(winner),
                 timestamp: Date.now
             }
         });
 
         this.gameEmbed.reactions.removeAll();
+        this.event.emit('end', { winner, ...this });
     }
 
+    /**
+     * 
+     * @param {*} reaction 
+     * @param {*} user 
+     */
     filter(reaction, user) {
         return Object.keys(reactions).includes(reaction.emoji.name) && user.id !== this.gameEmbed.author.id;
     }
-
+    
     waitForReaction() {
         this.gameEmbed.awaitReactions((reaction, user) => this.filter(reaction, user), { max: 1, time: 300000, errors: ['time'] })
             .then(collected => {
@@ -111,7 +136,7 @@ class Connect4{
 
                 for (let y = HEIGHT - 1; y >= 0; y--) {
                     const chip = gameBoard[column + (y * WIDTH)];
-                    if (chip === "⚪") {
+                    if (chip === white) {
                         gameBoard[column + (y * WIDTH)] = this.getChipFromTurn();
                         placedX = column;
                         placedY = y;
@@ -140,9 +165,14 @@ class Connect4{
     }
 
     getChipFromTurn() {
-        return this.redTurn ? "🔴" : "🟡";
+        return this.redTurn ? red : yellow;
     }
 
+    /**
+     * 
+     * @param {*} placedX 
+     * @param {*} placedY 
+     */
     hasWon(placedX, placedY) {
         const chip = this.getChipFromTurn();
 
@@ -193,35 +223,56 @@ class Connect4{
     isBoardFull() {
         for (let y = 0; y < HEIGHT; y++)
             for (let x = 0; x < WIDTH; x++)
-                if (gameBoard[y * WIDTH + x] === "⚪")
+                if (gameBoard[y * WIDTH + x] === white)
                     return false;
         return true;
     }
 
-    getWinnerText(winner) {
-        if (winner === "🔴" || winner === "🟡")
+    /**
+     * 
+     * @param {*} winner 
+     */
+    winnerText(winner) {
+        if (winner === red || winner === yellow)
             return winner + " Has Won!";
         else if (winner == "tie")
             return "It was a tie!";
         else if (winner == "timeout")
-            return "The game went unfinished :(";
+            return "Timeout :D";
     }
 
+    /**
+     * 
+     * @param {*} title 
+     */
     setTitle(title){
         this.options.title = title;
         return this;
     };
 
+    /**
+     * 
+     * @param {*} color 
+     */
     setColor(color){
         this.options.color = color;
         return this;
     };
 
+    /**
+     * 
+     * @param {*} title 
+     */
     setGameOverTitle(title){
         this.options.gameOverTitle = title;
         return this;
     };
 
+    /**
+     * 
+     * @param {*} event 
+     * @param {*} callback 
+     */
     on(event, callback){
         this.event.on(event, callback);
         return this;
