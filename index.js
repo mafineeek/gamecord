@@ -2,33 +2,51 @@
  * Main file
  */
 
+function load(moduleName) {
+  try {
+      return require(`./src/${moduleName}`);
+  } catch(e) {
+      return null;
+  }
+}
+
  module.exports = {
 
      /**
       * Version of the package
       */
-     version: require('./package.json').version,
+    version: load('../package.json').version,
 
      /**
       * Hangman game
       */
-    HangmanGame: require('./src/Hangman'),
+    HangmanGame: load('Hangman'),
 
      /**
       * Snake game
       */
 
-    SnakeGame: require('./src/SnakeGame'),
+    SnakeGame: load('SnakeGame'),
 
      /**
       * ConnectFour Discord game
       */
 
-    ConnectFour: require('./src/ConnectFour'),
+    ConnectFour: load('ConnectFour'),
 
      /**
       * Minesweeper board gen
       */
-    Minesweeper: require('./src/Minesweeper')
+    Minesweeper: load('Minesweeper'),
+
+    /**
+     *  GuessGame
+     */
+    GuessGame: load("GuessGame"),
+
+    /**
+     * Quiz
+     */
+    Quiz: load("Quiz")
 
  };
