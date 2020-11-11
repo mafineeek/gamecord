@@ -1,9 +1,5 @@
 const { quiz, random } = require("./utils/index")
 const { EventEmitter } = require('events')
-const item = random(quiz)
-const filter = response => {
-	return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
-};
 
 class Quiz {
     constructor(message, options={}) {
@@ -23,6 +19,10 @@ class Quiz {
     }
 
     run() {
+        const item = random(quiz)
+        const filter = response => {
+	        return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+        };
         this.event.emit('start', this);
         this.message.channel.send({
             embed: {

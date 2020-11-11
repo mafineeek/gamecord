@@ -1,52 +1,73 @@
-const utils = require('./utils/index');
-const possibleWords = utils.words;
+const { words, random } = require("./utils/index")
 const { EventEmitter } = require('events')
 
-class GuessGame{
-
-    constructor(message, options={}){
+class GuessGame {
+    constructor(message, options={}) {
         if(!message) throw new Error('missing message param');
 
+        this.event = new EventEmitter();
+
+        this.message = message
+
+        this.item = null;
+
+        this.wordArray = [];
+
+        this.guessed = [];
+
         this.options = {
-            word: utils.random(possibleWords).toLowerCase(),
-            max: 1,
-            time: 8000,
+            title: 'GuessGame',
+            color: 'RANDOM',
+            time: 30000,
             ...options
         };
+    }
 
-        this.message = message;
-        this.winners = [];
-        this.event = new EventEmitter();
-        this.run();
-    };
+    get hint(){
+        return this.wordArray.map(x => this.guessed.includes(x) ? x : '_')
+    }
 
-    run(){
-        this.message.channel.awaitMessages( 
-            m => !m.author.bot && m.content.toLowerCase() == this.options.word.toLowerCase(),
-           { max: this.options.max, time: this.options.time, errors: ['time', 'max'] }
-        )
-        .then(collected => {
-            console.log(collected)
-            this.winners.push(collected.first());
-            this.event.emit('response', collected, this);
+    run() {
+        this.item = random(words)
+        this.wordArray = this.item.split('');
+        for(let i = 0; i < 3; i++) this.guessed.push(random(this.wordArray));
+        const filter = m => m.author.id === this.message.author.id && m.content === this.item;
+        this.event.emit('start', this);
+        this.message.channel.send({
+            embed: {
+                title: this.options.title,
+                color: this.options.color,
+                description: `\n\n${this.hint.join(' ')}`,
+                timestamp: Date.now(),
+                footer: {
+                    text: 'Type your guess below!'
+                }
+            }
+        }).then(() => {
+            this.message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+            .then(collected => {
+                this.event.emit('response', collected, this);
+                this.message.channel.send(`✅ | ${collected.first().author} got the correct answer!`);
+            })
+            .catch(collected => {
+                this.event.emit('end', this);
+                this.message.channel.send(`❌ | Looks like nobody got the answer this time and the answer is ${this.item}.`)
+            })
         })
-        .catch(err => {
-            this.event.emit('end', this);
-        });
-    };
+    }
 
     on(event, callback){
         this.event.on(event, callback);
         return this;
     };
 
-    setWord(word){
-        this.options.word = word;
+    setTitle(title){
+        this.options.title = title;
         return this;
     };
 
-    setMax(max){
-        this.options.max = max;
+    setColor(color){
+        this.options.color = color;
         return this;
     };
 
@@ -54,7 +75,6 @@ class GuessGame{
         this.options.time = time;
         return this;
     };
+} 
 
-};
-
-module.exports = GuessGame;
+module.exports = GuessGame

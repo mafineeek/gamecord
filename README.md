@@ -8,6 +8,9 @@ Easy to make discord games for your bot by us!
 npm install gamecord
 ```
 
+[![NPM](https://nodei.co/npm/gamecord.png)](https://nodei.co/npm/gamecord/)
+
+
 # Features
 - Super easy to use 😀
 
@@ -81,9 +84,11 @@ message.channel.send(
 * **[Science Spot](https://github.com/Scientific-Guy)** - *Make a options & hangman,snake,minesweeper games* 
 
 # Applicable Games
-- Hangman
+- Hangman (Not Finish)
 - Snake
 - Minesweeper
 - ConnectFour
+- Quiz
+- GuessGame
 
 ### [Discord](https://discord.gg/hw7XPxz) - *Join discord server for help*
