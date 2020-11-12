@@ -70,6 +70,15 @@ class GuessGame {
             })
         })
     }
+    /**
+     * Event
+     * @param {*} event 
+     * @param {*} callback 
+     */
+    on(event, callback){
+        this.event.on(event, callback);
+        return this;
+    };
 
     /**
      * SetTitle of the embed
