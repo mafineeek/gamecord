@@ -18,18 +18,18 @@ function load(moduleName) {
     version: load('../package.json').version,
 
      /**
-      * Hangman game
+      * Hangman Game
       */
     HangmanGame: load('Hangman'),
 
      /**
-      * Snake game
+      * Snake Game
       */
 
     SnakeGame: load('SnakeGame'),
 
      /**
-      * ConnectFour Discord game
+      * ConnectFour Game
       */
 
     ConnectFour: load('ConnectFour'),
@@ -40,7 +40,7 @@ function load(moduleName) {
     GuessGame: load("GuessGame"),
 
     /**
-     * Quiz
+     * Quiz Game
      */
     Quiz: load("Quiz")
 

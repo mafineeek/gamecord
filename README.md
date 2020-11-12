@@ -13,6 +13,7 @@ npm install gamecord
 
 # Features
 - Super easy to use 😀
+- More Game 🎉
 
 # Quick Example
 
@@ -56,28 +57,10 @@ client.on('message', message => {
 client.login(process.env.token);
 ```
 
-# Quick Methods
-
-- `Minesweeper({ width: number, height: number })`
-
-Will return a grid of minesweeper using discord spoiler tag...
-
-```js
-message.channel.send(
-    new Discord.MessageEmbed()
-    .setTitle('My Minesweeper')
-    .setColor('#7298da')
-    .setDescription(GameCord.Minesweeper()) // By default minesweeper method takes 8x8 grid
-    .setTimestamp()
-)
-```
-
 # Samples
-![1](/images/snake.png)
+![1](https://raw.githubusercontent.com/lazyowldev/gamecord/v5/images/hangman.png)
 
-![2](/images/hangman.png)
-
-![3](/images/mine.png)
+![2](https://github.com/lazyowldev/gamecord/blob/v5/images/snake.png?raw=tru)
 
 # Authors
 * **[1GPEX](https://github.com/1GPEX)** - *Original Idea & Make snake,connect4 ganes*
@@ -86,9 +69,10 @@ message.channel.send(
 # Applicable Games
 - Hangman (Not Finish)
 - Snake
-- Minesweeper
 - ConnectFour
 - Quiz
 - GuessGame
+
+### [Docs](https://gamecord.lazyowl.repl.co/) - *Docs*
 
 ### [Discord](https://discord.gg/hw7XPxz) - *Join discord server for help*

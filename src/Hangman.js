@@ -1,7 +1,3 @@
-/**
- * Hangman Game
- */
-
 const { EventEmitter } = require('events');
 const { random, words } = require('./utils/index');
 

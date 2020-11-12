@@ -1,19 +1,22 @@
 {
   "name": "gamecord",
-  "version": "0.0.4",
-  "description": "Make your create any game in discord eazy",
+  "version": "0.0.5",
+  "description": "Easy to make discord games for your bot by us!",
   "main": "index.js",
   "scripts": {
     "test": "node test.js",
-    "docs": "docgen --source src --custom docs/index.yml --output docs/docs.json --spaces 2",
-    "docs:test": "docgen --source src --custom docs/index.yml --spaces 2"
+    "docs": "jsdoc src -r -d docs"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/1gpex/gamecord.git"
   },
-  "keywords": ["npm", "game", "discord.js"],
-  "author": "kazult",
+  "keywords": [
+    "npm",
+    "game",
+    "discord.js"
+  ],
+  "author": "lazyowldev",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/1gpex/gamecord/issues"
@@ -24,6 +27,6 @@
   },
   "devDependencies": {
     "discord.js": "^12.4.1",
-    "discord.js-docgen": "github:discordjs/docgen"
+    "jsdoc": "^3.6.6"
   }
 }

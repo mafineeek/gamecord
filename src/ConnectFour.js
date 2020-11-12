@@ -13,12 +13,17 @@ const WIDTH = 7;
 const HEIGHT = 7;
 const gameBoard = [];
 
-class Connect4{
+class ConnectFour{
     /**
-     * 
-     * @param {*} message 
-     * @param {*} options 
-     */
+    * Connect4 Game
+    * @param {any} message Client Message
+    * @param {object} options Your options
+    * @example const GameCord = require('gamecord');
+    * new GameCord.ConnectFour(message)
+        .setTitle('Connect4')
+        .setColor('#7298da')
+        .run() // Keep all your settings above and run it after all of your configuration!
+    */
     constructor(message, options={}) {
         if(!message) throw new Error('missing message param!')
         
@@ -47,6 +52,10 @@ class Connect4{
         return str;
     }
 
+    /**
+     * Run the Connect4 game
+     * @example ConnectFour.run()
+     */
     run(){
         if (this.inGame)
             return;
@@ -99,7 +108,7 @@ class Connect4{
     }
 
     /**
-     * 
+     * Gameover Embed
      * @param {*} winner 
      */
     gameOver(winner) {
@@ -118,7 +127,7 @@ class Connect4{
     }
 
     /**
-     * 
+     * filter 
      * @param {*} reaction 
      * @param {*} user 
      */
@@ -169,7 +178,7 @@ class Connect4{
     }
 
     /**
-     * 
+     * Check Who has won
      * @param {*} placedX 
      * @param {*} placedY 
      */
@@ -229,7 +238,7 @@ class Connect4{
     }
 
     /**
-     * 
+     * Get Winner Text Who has won or time out
      * @param {*} winner 
      */
     winnerText(winner) {
@@ -242,7 +251,7 @@ class Connect4{
     }
 
     /**
-     * 
+     * SetTitle of the embed
      * @param {*} title 
      */
     setTitle(title){
@@ -251,7 +260,7 @@ class Connect4{
     };
 
     /**
-     * 
+     * SetColor of the embed
      * @param {*} color 
      */
     setColor(color){
@@ -260,7 +269,7 @@ class Connect4{
     };
 
     /**
-     * 
+     * SetGameOverTitle of the embed
      * @param {*} title 
      */
     setGameOverTitle(title){
@@ -269,7 +278,7 @@ class Connect4{
     };
 
     /**
-     * 
+     * Event
      * @param {*} event 
      * @param {*} callback 
      */
@@ -279,4 +288,4 @@ class Connect4{
     };
 }
 
-module.exports = Connect4;
+module.exports = ConnectFour;

@@ -1,12 +1,9 @@
-/**
- * SnakeGame Gen
- */
-
 const { emoji } = require('./utils/index');
 const { EventEmitter } = require('events');
 const { up, down, left, right, exit } =  emoji.snakegame
 const WIDTH = 15;
 const HEIGHT = 10;
+
 
 class SnakeGame{
     /**
@@ -89,6 +86,10 @@ class SnakeGame{
         this.gameEmbed.react(exit);
     };
 
+    /**
+     * Run the Snake game
+     * @example SnakeGame.run()
+     */
     run(){
         this.reset();
         this.newAppleLoc();
@@ -143,7 +144,7 @@ class SnakeGame{
     };
 
     /**
-     * 
+     * filter
      * @param {*} reaction 
      * @param {*} user 
      */
@@ -152,7 +153,7 @@ class SnakeGame{
     }
 
     /**
-     * 
+     * IsLocinSnake
      * @param {*} pos 
      */
     isLocInSnake(pos) {
@@ -221,7 +222,7 @@ class SnakeGame{
     }
 
     /**
-     * 
+     * SetTitle of the embed
      * @param {*} title 
      */
     setTitle(title){
@@ -230,7 +231,7 @@ class SnakeGame{
     };
 
     /**
-     * 
+     * SetColor of the embed
      * @param {*} color 
      */
     setColor(color){
@@ -239,7 +240,7 @@ class SnakeGame{
     };
 
     /**
-     * 
+     * SetMaxTime of the game
      * @param {*} time 
      */
     setMaxTime(time){
@@ -248,7 +249,7 @@ class SnakeGame{
     };
 
     /**
-     * 
+     * SetGameOverTitle of the embed
      * @param {*} title 
      */
     setGameOverTitle(title){
@@ -257,7 +258,7 @@ class SnakeGame{
     };
 
     /**
-     * 
+     * Event
      * @param {*} event 
      * @param {*} callback 
      */

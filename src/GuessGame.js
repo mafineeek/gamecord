@@ -2,6 +2,17 @@ const { words, random } = require("./utils/index")
 const { EventEmitter } = require('events')
 
 class GuessGame {
+    /**
+    * GuessGame Game
+    * @param {any} message Client Message
+    * @param {object} options Your options
+    * @example const GameCord = require('gamecord');
+    * new GameCord.GuessGame(message)
+        .setTitle('GuessTheWord')
+        .setColor('#7298da')
+        .setTime(20000) // Default is 30 secs
+        .run() // Keep all your settings above and run it after all of your configuration!
+    */
     constructor(message, options={}) {
         if(!message) throw new Error('missing message param');
 
@@ -25,8 +36,12 @@ class GuessGame {
 
     get hint(){
         return this.wordArray.map(x => this.guessed.includes(x) ? x : '_')
-    }
-
+    }  
+    
+    /**
+     * Run the Guess game
+     * @example GuessGame.run()
+     */
     run() {
         this.item = random(words)
         this.wordArray = this.item.split('');
@@ -56,21 +71,28 @@ class GuessGame {
         })
     }
 
-    on(event, callback){
-        this.event.on(event, callback);
-        return this;
-    };
-
+    /**
+     * SetTitle of the embed
+     * @param {*} title 
+     */
     setTitle(title){
         this.options.title = title;
         return this;
     };
 
+    /**
+     * SetColor of the embed
+     * @param {*} color 
+     */
     setColor(color){
         this.options.color = color;
         return this;
     };
-
+    
+    /**
+     * Set game time
+     * @param {*} time 
+     */
     setTime(time){
         this.options.time = time;
         return this;
