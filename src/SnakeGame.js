@@ -48,10 +48,7 @@ class SnakeGame{
         };
     };
 
-    /**
-     * Get the snake board
-     * @example SnakeGame.board
-     */
+
     get board(){
         let { apple, gameBoard } = this
         let str = ""

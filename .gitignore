@@ -3,6 +3,3 @@ test.js
 
 # Modules
 node_modules/
-
-# Comming Soon Game
-src/GuessGame.js

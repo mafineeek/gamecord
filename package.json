@@ -4,7 +4,9 @@
   "description": "Make your create any game in discord eazy",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "docs": "docgen --source src --custom docs/index.yml --output docs/docs.json --spaces 2",
+    "docs:test": "docgen --source src --custom docs/index.yml --spaces 2"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
     "events": "^3.2.0"
   },
   "devDependencies": {
-    "discord.js": "^12.4.1"
+    "discord.js": "^12.4.1",
+    "discord.js-docgen": "github:discordjs/docgen"
   }
 }

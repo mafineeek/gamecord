@@ -43,10 +43,6 @@ class HangmanGame{
         };
     };
 
-    /**
-     * Get the hangman description
-     * @example HangmanGame.description
-     */
     get description(){
         return "```"
             + (this.mistakes > 0 ? "|‾‾‾‾‾‾|   \n|     " : " ")
@@ -62,9 +58,6 @@ class HangmanGame{
             + "```\n"
     };
 
-    /**
-     * Hint gen
-     */
     get hint(){
         return this.wordArray.map(x => this.guessed.includes(x) ? x : '_')
     }

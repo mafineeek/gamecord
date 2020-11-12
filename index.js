@@ -34,11 +34,6 @@ function load(moduleName) {
 
     ConnectFour: load('ConnectFour'),
 
-     /**
-      * Minesweeper board gen
-      */
-    Minesweeper: load('Minesweeper'),
-
     /**
      *  GuessGame
      */
