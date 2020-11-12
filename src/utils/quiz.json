@@ -121,5 +121,139 @@
         "0xDEAD",
         "0x12D591"
       ]
+    },
+    {
+      "question": "What is 48,879 in hexidecimal?",
+      "answers": [
+        "0x18C1"
+      ]
+    },
+    {
+      "question": "What year did the Titanic sink in the Atlantic Ocean on 15 April, on its maiden voyage from Southampton?",
+      "answers": [
+        "1912"
+      ]
+    },
+    {
+      "question": "What is the title of the first ever Carry On film made and released in 1958?",
+      "answers": [
+        "Carry on Sergeant"
+      ]
+    },
+    {
+      "question": "What is the name of the biggest technology company in South Korea?",
+      "answers": [
+        "Samsung"
+      ]
+    },
+    {
+      "question": "Which singer fronted the 1970s’ pop group Showaddywaddy?",
+      "answers": [
+        "Dave Bartram"
+      ]
+    },
+    {
+      "question": "Which now famous TV chef started cooking at the age of eight in his parents’ pub, ‘The Cricketers’, in Clavering, Essex?",
+      "answers": [
+        "Jamie Oliver"
+      ]
+    },
+    {
+      "question": "Which Dutch darts player won the 2012 BDO World Championship at the Lakeside Country Club, Frimley Green on 15 January?",
+      "answers": [
+        "Christian Kist"
+      ]
+    },
+    {
+      "question": "Which metal was discovered by Hans Christian Oersted in 1825?",
+      "answers": [
+        "Aluminium"
+      ]
+    },
+    {
+      "question": "What is the capital of Portugal?",
+      "answers": [
+        "Lisbon"
+      ]
+    },
+    {
+      "question": "How many breaths does the human body take daily?",
+      "answers": [
+        "20,000 daily"
+      ]
+    },
+    {
+      "question": "Who was Prime Minister of Great Britain from 1841 to 1846?",
+      "answers": [
+        "Robert Peel"
+      ]
+    },
+    {
+      "question": "What is the chemical symbol for silver?",
+      "answers": [
+        "ag",
+        "Ag"
+      ]
+    },
+    {
+      "question": "Who invented Cat’s Eyes in 1934 to improve road safety?",
+      "answers": [
+        "Percy Shaw"
+      ]
+    },
+    {
+      "question": "What is the world’s smallest bird?",
+      "answers": [
+        "Bee Hummingbird"
+      ]
+    },
+    {
+      "question": "Who played ‘Bodie’ and ‘Doyle’ in The Professionals?",
+      "answers": [
+        "Lewis Collins and Martin Shaw"
+      ]
+    },
+    {
+      "question": "What is the doll, Barbie’s, full name?",
+      "answers": [
+        "Barbara Millicent Roberts"
+      ]
+    },
+    {
+      "question": "What does Paul Hunn hold the record for, which registered at 118.1 decibels?",
+      "answers": [
+        "The loudest burp"
+      ]
+    },
+    {
+      "question": "What did Al Capone’s business card state his occupation was",
+      "answers": [
+        "A used furniture salesman"
+      ]
+    },
+    {
+      "question": "What is the lifespan of a dragonfly?",
+      "answers": [
+        "24",
+        "24 hours"
+      ]
+    },
+    {
+      "question": "Which year was the first Tonka truck made – 1945, 1947 or 1949?",
+      "answers": [
+        "1947"
+      ]
+    },
+    {
+      "question": "Who invented the tin can for preserving food in 1810?",
+      "answers": [
+        "Peter Durand"
+      ]
+    },
+    {
+      "question": "What is the capital of Thailand?",
+      "answers": [
+        "bankkok"
+      ]
     }
   ]

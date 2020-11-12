@@ -1,6 +1,6 @@
 {
   "name": "gamecord",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Easy to make discord games for your bot by us!",
   "main": "index.js",
   "scripts": {
