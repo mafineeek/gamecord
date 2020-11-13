@@ -1,5 +1,6 @@
 const { words, random } = require("./utils/index")
-const { EventEmitter } = require('events')
+const { EventEmitter } = require('events');
+const { endianness } = require("os");
 
 class GuessGame {
     /**
@@ -43,6 +44,7 @@ class GuessGame {
      * @example GuessGame.run()
      */
     run() {
+        
         this.item = random(words)
         this.wordArray = this.item.split('');
         for(let i = 0; i < 3; i++) this.guessed.push(random(this.wordArray));
@@ -59,17 +61,37 @@ class GuessGame {
                 }
             }
         }).then(() => {
-            this.message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+            let correct = true;
+            this.message.channel.awaitMessages(filter, { max: 1, time: this.options.time, errors: ['time'] })
             .then(collected => {
                 this.event.emit('response', collected, this);
-                this.message.channel.send(`✅ | ${collected.first().author} got the correct answer!`);
+                correct = true;
+                this.end(correct, collected)
             })
             .catch(collected => {
-                this.event.emit('end', this);
-                this.message.channel.send(`❌ | Looks like nobody got the answer this time and the answer is ${this.item}.`)
+                correct = false; 
+                this.end(correct, collected)
             })
         })
     }
+
+    /**
+     * End event
+     * @param {*} correct 
+     * @param {*} collected 
+     */
+    end(correct, collected) {
+        this.event.emit('end', this);
+        this.message.channel.send({
+            embed: {
+                title: this.options.title,
+                color: this.options.color,
+                description: `**${correct ? `✅ | ${collected.first().author} got the correct answer!` : `❌ | Looks like nobody got the answer this time.`}**\n\n**The answer is ${this.item}**.`,
+                timestamp: Date.now(),
+            }
+        })
+    }
+
     /**
      * Event
      * @param {*} event 

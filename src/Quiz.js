@@ -22,6 +22,8 @@ class Quiz {
 
         this.message = message
 
+        this.item = null
+
         this.options = {
             title: 'Quiz',
             color: 'RANDOM',
@@ -35,31 +37,50 @@ class Quiz {
      * @example Quiz.run()
      */
     run() {
-        const item = random(quiz)
+        this.item = random(quiz)
         const filter = response => {
-	        return item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
+	        return this.item.answers.some(answer => answer.toLowerCase() === response.content.toLowerCase());
         };
         this.event.emit('start', this);
         this.message.channel.send({
             embed: {
                 title: this.options.title,
                 color: this.options.color,
-                description: item.question,
+                description: this.item.question,
                 timestamp: Date.now(),
                 footer: {
                     text: 'Type your guess below!'
                 }
             }
         }).then(() => {
+            let correct = true;
             this.message.channel.awaitMessages(filter, { max: 1, time: this.options.time, errors: ['time'] })
             .then(collected => {
                 this.event.emit('response', collected, this);
-                this.message.channel.send(`✅ | ${collected.first().author} got the correct answer!`);
+                correct = true;
+                this.end(correct, collected)
             })
             .catch(collected => {
-                this.event.emit('end', this);
-                this.message.channel.send("❌ | Looks like nobody got the answer this time.")
+                correct = false; 
+                this.end(correct, collected)
             })
+        })
+    }
+
+    /**
+     * End event
+     * @param {*} correct 
+     * @param {*} collected 
+     */
+    end(correct, collected) {
+        this.event.emit('end', this);
+        this.message.channel.send({
+            embed: {
+                title: this.options.title,
+                color: this.options.color,
+                description: `**${correct ? `✅ | ${collected.first().author} got the correct answer!` : `❌ | Looks like nobody got the answer this time.`}**\n\n**The answer is ${this.item.answers}**.`,
+                timestamp: Date.now(),
+            }
         })
     }
 
