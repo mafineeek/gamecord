@@ -1,10 +1,8 @@
-const { load } = require("../..");
-
 const random = arr => arr[Math.floor(Math.random() * arr.length)];
 
 module.exports = {
-    emoji: require("./emoji.json"),
-    words: require("./words.json"),
-    quiz: require("./quiz.json"),
+    emoji: require("../db/emoji.json"),
+    words: require("../db/words.json"),
+    quiz: require("../db/quiz.json"),
     random
 }

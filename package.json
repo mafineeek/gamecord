@@ -1,32 +1,31 @@
 {
   "name": "gamecord",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "Easy to make discord games for your bot by us!",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js",
-    "docs": "jsdoc src -r -d docs"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/1gpex/gamecord.git"
+    "url": "git+https://github.com/lazyowldev/gamecord.git"
   },
   "keywords": [
-    "npm",
+    "djs",
+    "eris",
     "game",
-    "discord.js"
+    "easy",
+    "quick"
   ],
   "author": "lazyowldev",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/1gpex/gamecord/issues"
+    "url": "https://github.com/lazyowldev/gamecord/issues"
   },
-  "homepage": "https://github.com/1gpex/gamecord#readme",
-  "dependencies": {
-    "events": "^3.2.0"
-  },
+  "homepage": "https://github.com/lazyowldev/gamecord#readme",
   "devDependencies": {
-    "discord.js": "^12.4.1",
-    "jsdoc": "^3.6.6"
+    "discord.js": "^12.3.1",
+    "eris": "^0.14.0",
+    "events": "^3.2.0"
   }
 }
