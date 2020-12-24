@@ -54,7 +54,7 @@ class GuessGame {
         this.embed = {
             title: this.options.title,
             color: this.options.color,
-            description: `\n\n${this.hint.join(' ')}`,
+            description: `\n\n\`${this.hint.join(' ')}\``,
             timestamp: this.options.timestamp ? Date.now() : null,
             footer: {
                 text: 'Type your guess below!'
@@ -80,7 +80,7 @@ class GuessGame {
         this.embed = {
             title: this.options.title,
             color: this.options.color,
-            description: `**${this.correct ? `✅ | ${collected.first().author} got the correct answer!` : `❌ | Looks like nobody got the answer this time.`}**\n\n**The answer is ${this.item}**.`,
+            description: `**${this.correct ? `✅ | ${collected.first().author} got the correct answer!` : `❌ | Looks like nobody got the answer this time.`}**\n\n**The answer is \`${this.item}\`**.`,
             timestamp: this.options.timestamp ? Date.now() : null,
         }
         this.message.channel.send({ embed: this.embed })
