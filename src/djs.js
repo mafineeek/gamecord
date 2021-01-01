@@ -3,5 +3,5 @@ module.exports = {
     Quiz: require("./djs/quiz.js"),
     SnakeGame: require("./djs/snakegame"),
     ConnectFour: require("./djs/connect4"),
-    HangmanGame: require("./djs/hangman")
+    // HangmanGame: require("./djs/hangman")
 }
